@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./app:/app/db
+    #networks:
+    #  - default
+    restart: always
+
+  app:
+    build:
+      context: ./app
+    volumes:
+      - ./app:/app
+    depends_on:
+      - db
+    #networks:
+    #  - default
+    ports:
+      - "5000:5000"
+    #environment:
+    #  DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
+    #  DEBUG: "True"
+    restart: always
